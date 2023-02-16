@@ -1,34 +1,41 @@
 import { Component } from 'react';
+import { Header, Form, Btn, BtnLabel, Input } from './Searchbar.styled';
 
 export class Searchbar extends Component {
   state = {
-    name: '',
+    query: '',
   };
 
   handleInput = event => {
-    this.setState({ name: event.target.value });
+    this.setState({ query: event.target.value });
+    // console.log(event.target.value);
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.props.handleSubmit(this.state.query);
   };
 
   render() {
     return (
       <>
-        <header class="searchbar">
-          <form class="form" onSubmit={this.handleInput}>
-            <button type="submit" class="button">
-              <span class="button-label">Search</span>
-            </button>
+        <Header>
+          <Form onSubmit={this.handleFormSubmit}>
+            <Btn type="submit">
+              <BtnLabel>Search</BtnLabel>
+            </Btn>
 
-            <input
-              name="name"
-              value={this.state.name}
-              class="input"
+            <Input
+              name="query"
+              value={this.state.query}
               type="text"
               autocomplete="off"
               autofocus
               placeholder="Search images and photos"
+              onChange={this.handleInput}
             />
-          </form>
-        </header>
+          </Form>
+        </Header>
       </>
     );
   }
