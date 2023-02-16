@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Header, Form, Btn, BtnLabel, Input } from './Searchbar.styled';
 
@@ -13,7 +14,7 @@ export class Searchbar extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.state.query);
+    this.props.handleSubmit(this.state.query.trim().toLowerCase());
   };
 
   render() {
@@ -40,3 +41,9 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  state: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }),
+};

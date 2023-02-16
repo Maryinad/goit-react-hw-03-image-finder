@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { createPortal } from 'react-dom';
 import { Component } from 'react';
 
@@ -35,3 +37,12 @@ export class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  photos: PropTypes.shape({
+    tags: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+    id: PropTypes.object.isRequired,
+  }),
+};

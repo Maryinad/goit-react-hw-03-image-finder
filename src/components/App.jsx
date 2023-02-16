@@ -5,6 +5,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { Button } from './Button/Button.jsx';
 // import { GlobalStyle } from '../utils/GlobalStyles';
 import { AppContainer } from './App.styled.js';
+import { Loader } from './Loader/Loader.jsx';
 
 export class App extends Component {
   state = {
@@ -34,6 +35,7 @@ export class App extends Component {
         prevState.searchQuery !== searchQuery ||
         prevState.currentPage !== currentPage
       ) {
+        // this.setState({ loading: true });
         const result = await fetchPhotosData(searchQuery, currentPage);
         this.setState(prevState => ({
           photos: [...prevState.photos, ...result],
@@ -41,6 +43,8 @@ export class App extends Component {
       }
     } catch (error) {
       this.setState({ error: error.message });
+    } finally {
+      // this.setState({ loading: false });
     }
   }
 
@@ -48,10 +52,13 @@ export class App extends Component {
     return (
       <AppContainer>
         <Searchbar handleSubmit={this.handleSubmit} />
+        {this.state.loading && <Loader />}
         {this.state.photos !== null && (
           <ImageGallery photosData={this.state.photos} />
         )}
-        <Button onClick={this.handleAddPhotos} />
+        {this.state.photos.length !== 0 && (
+          <Button onClick={this.handleAddPhotos} />
+        )}
         {/* <GlobalStyle /> */}
       </AppContainer>
     );

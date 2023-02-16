@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { ImageGalleryList } from './ImageGallery.styled';
 
 export const ImageGallery = ({ photosData }) => {
-  console.log('photosData', photosData);
+  // console.log('photosData', photosData);
   return (
     <ImageGalleryList>
       {photosData.map(photo => (
@@ -16,4 +18,8 @@ export const ImageGallery = ({ photosData }) => {
       ))}
     </ImageGalleryList>
   );
+};
+
+ImageGallery.propTypes = {
+  photosData: PropTypes.array.isRequired,
 };
