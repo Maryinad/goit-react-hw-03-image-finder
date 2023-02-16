@@ -15,6 +15,7 @@ export class App extends Component {
     error: false,
     currentPage: 1,
     perPage: 12,
+    totalHits: 0,
   };
 
   handleSubmit = query => {
@@ -39,6 +40,7 @@ export class App extends Component {
         const result = await fetchPhotosData(searchQuery, currentPage);
         this.setState(prevState => ({
           photos: [...prevState.photos, ...result],
+          totalHits: result.totalHits,
         }));
       }
     } catch (error) {
@@ -49,6 +51,7 @@ export class App extends Component {
   }
 
   render() {
+    const totalPage = Math.round(this.state.totalHits / this.state.perPage);
     return (
       <AppContainer>
         <Searchbar handleSubmit={this.handleSubmit} />
@@ -56,9 +59,9 @@ export class App extends Component {
         {this.state.photos !== null && (
           <ImageGallery photosData={this.state.photos} />
         )}
-        {this.state.photos.length !== 0 && (
-          <Button onClick={this.handleAddPhotos} />
-        )}
+        {this.state.photos.length !== 0 &&
+          totalPage - 1 &&
+          totalPage(<Button onClick={this.handleAddPhotos} />)}
         {/* <GlobalStyle /> */}
       </AppContainer>
     );

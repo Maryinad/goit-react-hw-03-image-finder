@@ -6,7 +6,7 @@ export const fetchPhotosData = async (query, currentPage) => {
   const { data } = await axios.get(
     `${BASE_URL}?q=${query}&page=${currentPage}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
   );
-  // console.log(data.hits);
+  console.log(data);
   return data.hits;
 };
 
