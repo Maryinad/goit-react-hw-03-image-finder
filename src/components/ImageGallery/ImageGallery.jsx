@@ -5,7 +5,6 @@ import { ImageGalleryItem } from './ImageGalleryItem';
 import { ImageGalleryList } from './ImageGallery.styled';
 
 export const ImageGallery = ({ photosData }) => {
-  // console.log('photosData', photosData);
   return (
     <ImageGalleryList>
       {photosData.map(photo => (

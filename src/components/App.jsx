@@ -69,17 +69,15 @@ export class App extends Component {
   }
 
   render() {
-    // const totalPage = Math.round(this.state.totalHits / this.state.perPage);
+    const { loading, photos, totalPhotos } = this.state;
     return (
       <AppContainer>
         <Searchbar handleSubmit={this.handleSubmit} />
-        {this.state.loading && <Loader />}
-        {this.state.photos.length !== 0 && (
-          <ImageGallery photosData={this.state.photos} />
+        {loading && <Loader />}
+        {photos.length !== 0 && <ImageGallery photosData={photos} />}
+        {totalPhotos !== photos.length && !loading && (
+          <Button onClick={this.handleAddPhotos} />
         )}
-        {this.state.totalPhotos !== this.state.photos.length &&
-          !this.state.loading && <Button onClick={this.handleAddPhotos} />}
-        {/* <GlobalStyle /> */}
       </AppContainer>
     );
   }
