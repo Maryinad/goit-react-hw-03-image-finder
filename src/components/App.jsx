@@ -12,14 +12,21 @@ export class App extends Component {
     searchQuery: '',
     photos: [],
     loading: false,
-    error: false,
+    error: '',
     currentPage: 1,
-    perPage: 12,
-    totalHits: 0,
+    totalPhotos: 0,
   };
 
   handleSubmit = query => {
-    this.setState({ searchQuery: query, currentPage: 1, photos: [] });
+    if (query === this.state.searchQuery) {
+      alert('Enter new request');
+    }
+    this.setState({
+      searchQuery: query,
+      currentPage: 1,
+      photos: [],
+      totalPhotos: 0,
+    });
   };
 
   handleAddPhotos = () => {
@@ -37,13 +44,23 @@ export class App extends Component {
       try {
         //всегда нужна проверка, если что-то изменилось, тогда посылаем запрос
 
-        this.setState({ loading: true });
-        const result = await fetchPhotosData(searchQuery, currentPage);
+        this.setState({ loading: true, error: '' });
+
+        const { photos, totalPhotos } = await fetchPhotosData(
+          searchQuery,
+          currentPage
+        );
         this.setState(prevState => ({
-          photos: [...prevState.photos, ...result],
-          totalHits: result.totalHits,
+          photos: [...prevState.photos, ...photos],
+          totalPhotos,
         }));
+
+        if (totalPhotos.length < 1) {
+          alert('Nothing was found for your request');
+          return;
+        }
       } catch (error) {
+        alert('Ooops, something went wrong');
         this.setState({ error: error.message });
       } finally {
         this.setState({ loading: false });
@@ -57,14 +74,11 @@ export class App extends Component {
       <AppContainer>
         <Searchbar handleSubmit={this.handleSubmit} />
         {this.state.loading && <Loader />}
-        {this.state.photos !== null && (
+        {this.state.photos.length !== 0 && (
           <ImageGallery photosData={this.state.photos} />
         )}
-        {this.state.photos.length !== 0 && (
-          // totalPage - 1 &&
-          // totalPage
-          <Button onClick={this.handleAddPhotos} />
-        )}
+        {this.state.totalPhotos !== this.state.photos.length &&
+          !this.state.loading && <Button onClick={this.handleAddPhotos} />}
         {/* <GlobalStyle /> */}
       </AppContainer>
     );

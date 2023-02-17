@@ -17,6 +17,7 @@ export class Searchbar extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     this.props.handleSubmit(this.state.query.trim().toLowerCase());
+    this.setState({ query: '' });
   };
 
   render() {
@@ -34,7 +35,7 @@ export class Searchbar extends Component {
               value={this.state.query}
               type="text"
               autocomplete="off"
-              autofocus
+              autoFocus
               placeholder="Search images and photos"
               onChange={this.handleInput}
             />

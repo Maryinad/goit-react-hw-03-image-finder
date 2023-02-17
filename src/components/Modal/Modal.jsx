@@ -24,11 +24,17 @@ export class Modal extends Component {
     window.removeEventListener('keydown', this.onEscapePress);
   }
 
+  onBackdropPress = event => {
+    if (event.target === event.currentTarget) {
+      this.props.closeModal();
+    }
+  };
+
   render() {
     const { largeImageURL, tags } = this.props.data;
     // console.log(largeImageURL, tags);
     return createPortal(
-      <Overlay>
+      <Overlay onClick={this.onBackdropPress}>
         <ModalContainer>
           <img src={largeImageURL} alt={tags} />
         </ModalContainer>

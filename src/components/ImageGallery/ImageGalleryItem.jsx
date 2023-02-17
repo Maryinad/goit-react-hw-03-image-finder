@@ -17,8 +17,12 @@ export class ImageGalleryItem extends Component {
 
   render() {
     return (
-      <GalleryItem onClick={this.handleToggleModal}>
-        <GalleryImg src={this.props.smallPhoto} alt={this.props.alt} />
+      <GalleryItem>
+        <GalleryImg
+          onClick={this.handleToggleModal}
+          src={this.props.smallPhoto}
+          alt={this.props.alt}
+        />
         {this.state.isOpenModal && (
           <Modal data={this.props.info} closeModal={this.handleToggleModal} />
         )}
