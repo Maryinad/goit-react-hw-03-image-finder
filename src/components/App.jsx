@@ -30,28 +30,29 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { searchQuery, currentPage } = this.state;
-    try {
-      //всегда нужна проверка, если что-то изменилось, тогда посылаем запрос
-      if (
-        prevState.searchQuery !== searchQuery ||
-        prevState.currentPage !== currentPage
-      ) {
-        // this.setState({ loading: true });
+    if (
+      prevState.searchQuery !== searchQuery ||
+      prevState.currentPage !== currentPage
+    ) {
+      try {
+        //всегда нужна проверка, если что-то изменилось, тогда посылаем запрос
+
+        this.setState({ loading: true });
         const result = await fetchPhotosData(searchQuery, currentPage);
         this.setState(prevState => ({
           photos: [...prevState.photos, ...result],
           totalHits: result.totalHits,
         }));
+      } catch (error) {
+        this.setState({ error: error.message });
+      } finally {
+        this.setState({ loading: false });
       }
-    } catch (error) {
-      this.setState({ error: error.message });
-    } finally {
-      // this.setState({ loading: false });
     }
   }
 
   render() {
-    const totalPage = Math.round(this.state.totalHits / this.state.perPage);
+    // const totalPage = Math.round(this.state.totalHits / this.state.perPage);
     return (
       <AppContainer>
         <Searchbar handleSubmit={this.handleSubmit} />
@@ -59,9 +60,11 @@ export class App extends Component {
         {this.state.photos !== null && (
           <ImageGallery photosData={this.state.photos} />
         )}
-        {this.state.photos.length !== 0 &&
-          totalPage - 1 &&
-          totalPage(<Button onClick={this.handleAddPhotos} />)}
+        {this.state.photos.length !== 0 && (
+          // totalPage - 1 &&
+          // totalPage
+          <Button onClick={this.handleAddPhotos} />
+        )}
         {/* <GlobalStyle /> */}
       </AppContainer>
     );

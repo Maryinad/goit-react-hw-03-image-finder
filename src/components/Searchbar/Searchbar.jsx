@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
+
 import { Component } from 'react';
 import { Header, Form, Btn, BtnLabel, Input } from './Searchbar.styled';
 
+import { BsSearch } from 'react-icons/bs';
 export class Searchbar extends Component {
   state = {
     query: '',
@@ -24,6 +26,7 @@ export class Searchbar extends Component {
           <Form onSubmit={this.handleFormSubmit}>
             <Btn type="submit">
               <BtnLabel>Search</BtnLabel>
+              <BsSearch size="20px" fill="black" />
             </Btn>
 
             <Input
